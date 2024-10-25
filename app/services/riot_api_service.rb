@@ -3,7 +3,7 @@ require 'json'
 
 class RiotApiService
   RIOT_API_BASE_URL = 'https://americas.api.riotgames.com'
-  SUMMONER_API_BASE_URL = 'https://na1.api.riotgames.com'
+#   SUMMONER_API_BASE_URL = 'https://na1.api.riotgames.com'
   user = 'Frogen'
   tagLine = 'NA1'
 
@@ -32,7 +32,7 @@ class RiotApiService
   end
 
   def self.get_match_data(match_id)
-    url = URI("#{SUMMONER_API_BASE_URL}/tft/match/v1/matches/#{match_id}?api_key=#{ENV['RIOT_API_KEY']}")
+    url = URI("#{RIOT_API_BASE_URL}/tft/match/v1/matches/#{match_id}?api_key=#{ENV['RIOT_API_KEY']}")
     response = Net::HTTP.get(url)
     JSON.parse(response)
   rescue StandardError => e

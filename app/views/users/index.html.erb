@@ -1,0 +1,14 @@
+<h1>Users and Matches</h1>
+
+<% @users.each do |user| %>
+  <h2><%= user.name %></h2>
+  <p>Riot ID: <%= user.riot_id %></p>
+  <ul>
+    <% user.matches.each do |match| %>
+      <li>
+        <strong>Match ID:</strong> <%= match.match_id %>
+        <strong>Game Type:</strong> <%= match.game_type %>
+      </li>
+    <% end %>
+  </ul>
+<% end %>
