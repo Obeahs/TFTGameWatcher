@@ -9,6 +9,7 @@
 #   end
 require 'faker'
 
+#  work in progress
 account_data = RiotApiService.get_account_by_riot_id('Frogen', 'NA1')
 puuid = account_data['puuid']
 
