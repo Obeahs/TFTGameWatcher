@@ -1,8 +1,38 @@
-/* app/assets/stylesheets/application.scss */
 @use "bulma/bulma";
 
-.card-custom {
-  background-color: #0e1a24; /* Custom light blue background */
-  font-family: 'Arial, sans-serif'; /* Custom font */
+html, body {
+  background-color: #363944;
+  color: white;
+  height: 100%;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+#container {
+  border: 5px solid black;
+  padding: 20px; 
+  // align-items: fle;
+  // text-align: center;
+}
+
+#information{
+  align-items: center;
+  text-align: center;
+}
+
+#header{
+  background-color: #54596a;
+  border: 1px solid black;
+  padding: 10px;
+  width: 100%;
+  text-align: left;
+}
+
+#footer{
+  border: 1px solid black;
+  padding: 10px;
+  text-align: center;
+  align-items: center;
 }
             

@@ -7,7 +7,8 @@ class RiotApiService
   user = 'Frogen'
   tagLine = 'NA1'
 
-  def self.get_account_by_riot_id(game_name, tag_line)
+  def self.get_account_by_riot_id(game_name)
+    tag_line = 'NA1' 
     url = URI("#{RIOT_API_BASE_URL}/riot/account/v1/accounts/by-riot-id/#{game_name}/#{tag_line}?api_key=#{ENV['RIOT_API_KEY']}")
     response = Net::HTTP.get(url)
     JSON.parse(response)
@@ -34,8 +35,13 @@ class RiotApiService
   def self.get_match_data(match_id)
     url = URI("#{RIOT_API_BASE_URL}/tft/match/v1/matches/#{match_id}?api_key=#{ENV['RIOT_API_KEY']}")
     response = Net::HTTP.get(url)
-    JSON.parse(response)
+    match_data = JSON.parse(response)
+    {
+      metadata: match_data['metadata'],
+      participants: match_data['info']['participants']
+    }
   rescue StandardError => e
     puts "Error: #{e.message}"
+    { metadata: {}, participants: [] }
   end
 end
