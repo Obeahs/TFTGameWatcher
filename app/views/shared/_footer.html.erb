@@ -6,7 +6,8 @@
   <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
 </head>
 <footer>
-  <div id="footer">
-    <p>&copy; <%= Time.now.year %> Your Website Name. All rights reserved.</p>
+  <div>
+    <p>&copy; <%= Time.now.year %> TFTGameWatcher.</p>
+    <a id="foot-item"><%= link_to 'About', about_path %></a>
   </div>
 </footer>

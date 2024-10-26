@@ -1,6 +1,25 @@
 @use "bulma/bulma";
 
+@font-face {
+  font-family: 'Friz Quadrata Regular OS';
+  font-style: normal;
+  font-weight: normal;
+  src: local('Friz Quadrata Regular OS'), url('friz-quadrata-regular-os-5870333951e7c.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'Friz Quadrata Bold Italic OS';
+  font-style: normal;
+  font-weight: normal;
+  src: local('Friz Quadrata Bold Italic OS'), url('friz-quadrata-bold-italic-os-5870341205e0f.woff') format('woff');
+}
+
+h1, h2, h3, .title {
+  font-family: 'Friz Quadrata Bold Italic OS', Arial, sans-serif; 
+}
+
 html, body {
+  font-family: 'Friz Quadrata Regular OS', Arial;
   background-color: #363944;
   color: white;
   height: 100%;
@@ -11,28 +30,69 @@ html, body {
 
 #container {
   border: 5px solid black;
-  padding: 20px; 
-  // align-items: fle;
-  // text-align: center;
+  width: auto;
+  height: auto;
 }
 
 #information{
   align-items: center;
   text-align: center;
+  padding-left: 5%;
+  padding-right: 5%;
 }
 
 #header{
   background-color: #54596a;
   border: 1px solid black;
-  padding: 10px;
-  width: 100%;
+  padding: 5px;
   text-align: left;
 }
 
-#footer{
+#title{
+  padding-left: 15px;
+}
+
+nav{
+  background-color: #2b2e37;
+
+}
+
+#navPlacement{
+  //  border: 1px solid white;
+  display: flex;
+}
+
+#navItems{
+  display: flex;
+  padding: 0;
+  // border: 1px solid blue;
+}
+
+#navbar-item{
+  padding-left: 30px;
+  padding-right: 30px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  // border: 1px solid black;
+  text-decoration: none;
+}
+
+#navbar-item:hover{
+  background-color: #373b47;
+}
+
+#navbar-item:visited{
+  color:inherit;
+}
+
+footer{
   border: 1px solid black;
   padding: 10px;
   text-align: center;
   align-items: center;
+}
+
+#foot-item:visited{
+  color:inherit;
 }
             

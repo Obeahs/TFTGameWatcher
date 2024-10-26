@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+  <title><%= @page_title %></title>
+</head>
+<body id="about">
+    <%= render 'shared/header' %>
+    <%= render 'shared/nav' %>
+    <div id="information">
+        <h2>About</h2>
+            <p>
+                This site was created to watch accounts in North America (#NA1) to see games they have played, which users they played with and monitor what were the most used units & items in each game
+            </p>
+    </div>
+    <%= render 'shared/footer' %>
+</body>
