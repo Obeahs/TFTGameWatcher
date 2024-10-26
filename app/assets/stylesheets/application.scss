@@ -86,13 +86,23 @@ nav{
 }
 
 footer{
-  border: 1px solid black;
+  // border: 1px solid black;
   padding: 10px;
   text-align: center;
   align-items: center;
 }
 
-#foot-item:visited{
+#foot-item{
+  color: rgb(198, 198, 255);
+  font-size: small;
+}
+
+a{
+  text-decoration: none;
+  color: inherit;
+}
+
+a:visited{
   color:inherit;
 }
             
