@@ -1,13 +1,23 @@
 <h1>Users and Matches</h1>
 
+<h1 class="title">Users and Matches</h1>
+
 <%= form_tag(users_path, method: :get) do %>
-  <%= label_tag(:search, "Search a user:") %>
-  <%= text_field_tag(:search, params[:search]) %>
-  <%= submit_tag("Search") %>
+  <div class="field">
+    <label class="label" for="search">Search for a user:</label>
+    <div class="control">
+      <input class="input" type="text" name="search" value="<%= params[:search] %>">
+    </div>
+    <div class="control">
+      <button class="button is-link" type="submit">Search</button>
+    </div>
+  </div>
 <% end %>
 
+<%= render 'components/card' %>
+
 <% @users.each do |user| %>
-  <h2><%= user.name %></h2>
+  <h2 class="subtitle"><%= user.name %></h2>
   <p>Riot ID: <%= user.riot_id %></p>
   <ul>
     <% user.matches.each do |match| %>
@@ -19,4 +29,8 @@
   </ul>
 <% end %>
 
+
 # create if-else
+# cdn /bulma / bootstrap - goes to nearest server 
+# create more pages
+#  
