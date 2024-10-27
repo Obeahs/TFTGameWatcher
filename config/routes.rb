@@ -1,7 +1,6 @@
 Rails.application.routes.draw do
   get 'about', to: 'pages#about'
 
-  resources :users, only: [:index]
-  root 'users#index'
-  
+  root 'home#index'
+  resources :users, only: [:index, :show]
 end

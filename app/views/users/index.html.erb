@@ -1,8 +1,4 @@
 <!DOCTYPE html>
-<!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]> <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]> <html class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]> <html class="no-js"> <!--<![endif]-->
 <html lang="en">
 <head>
   <meta charset="utf-8">
@@ -14,10 +10,6 @@
 </head>
 <body>
   <div class="container is-fluid has-background-black has-text-white">
-    <!--[if lt IE 7]>
-      <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
-    <![endif]-->
-    <script src="" async defer></script>
     <%= render 'shared/header' %>
     <%= render 'shared/nav' %>
     <main id="information" class="section">
@@ -34,27 +26,25 @@
           </div>
         <% end %>
         
-        <% @users.each do |user| %>
-          <h2 class="subtitle"><%= user.riot_id %></h2>
-          <p>PUUID: <%= user.puuid %></p>
-          <ul>
-            <% user.matches.each do |match| %>
-              <li>
-                <strong>Match ID:</strong> <%= match.match_id %>
-                <strong>Game Type:</strong> <%= match.game_type %>
-              </li>
-            <% end %>
-          </ul>
-        <% end %> 
+        <% if @users.present? %>
+          <% @users.each do |user| %>
+            <h2 class="subtitle"><%= link_to user.riot_id, user_path(user) %></h2>
+            <p>PUUID: <%= user.puuid %></p>
+            <ul>
+              <% user.matches.each do |match| %>
+                <li>
+                  <strong>Match ID:</strong> <%= match.match_id %>
+                  <strong>Game Type:</strong> <%= match.game_type %>
+                </li>
+              <% end %>
+            </ul>
+          <% end %>
+        <% else %>
+          <p>No users found</p>
+        <% end %>
       </div>
     </main>
     <%= render 'shared/footer' %>
   </div>
-  <!-- Add JavaScript at the end of the body -->
-  <script>
-    function logSubmit(event) {
-      console.log('Form submitted');
-    }
-  </script>
 </body>
 </html>
