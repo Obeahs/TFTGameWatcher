@@ -35,7 +35,7 @@ class RiotApiService
     response = Net::HTTP.get(url)
     match_data = JSON.parse(response)
     {
-      metadata: match_data['metadata'],
+      metadata: match_data['metadata']['match_id'],
       participants: match_data['info']['participants']
     }
   rescue StandardError => e

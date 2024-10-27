@@ -13,25 +13,28 @@
     <%= render 'shared/header' %>
     <%= render 'shared/nav' %>
     <main id="information" class="section">
-      <div class="container has-border-black">
-        <h1 class="title"><%= @user.riot_id %></h1>
-        <p>PUUID: <%= @user.puuid %></p>
-
-        <h2 class="subtitle">Recent Matches</h2>
-        <% if @recent_matches.present? %>
-          <ul>
-            <% @recent_matches.each do |match| %>
-              <li>
-                <strong>Match ID:</strong> <%= match.match_id %>
-                <strong>Game Type:</strong> <%= match.game_type %>
-                <strong>Date:</strong> <%= match.created_at.strftime("%Y-%m-%d %H:%M:%S") %>
-              </li>
-            <% end %>
-          </ul>
+    <div class="container has-border-black">
+      <h1 class="title"><%= @user.riot_id %></h1>
+      <h2 class="subtitle">Recent Matches</h2>
+      <% if @recent_matches.present? %>
+        <table class="table is-fullwidth is-hoverable has-background-grey-darker has-text-white-ter">
+            <thead>
+                <tr>
+                <th>Match ID</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% @recent_matches.each do |match| %>
+                <tr>
+                    <td><%= match[:metadata] %></td>
+                </tr>
+                <% end %>
+            </tbody>
+            </table>
         <% else %>
-          <p>No recent matches found</p>
+            <p>No recent matches found</p>
         <% end %>
-      </div>
+        </div>
     </main>
     <%= render 'shared/footer' %>
   </div>
