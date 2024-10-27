@@ -14,25 +14,23 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
     @page_title = "Profile - #{@user.riot_id}"
     @recent_matches = get_recent_matches(@user)
+    @average_placement = calculate_average_placement(@recent_matches)
   end
 
   def match_data
     @match = RiotApiService.get_match_data(params[:id])
     Rails.logger.debug("Match data: #{@match.inspect}")
-
     if @match[:metadata].nil?
       Rails.logger.debug("Metadata is missing.")
       @page_title = "Match Details"
     else
       @page_title = "Match Details - #{@match[:metadata]}"
     end
-
     @participants = @match[:participants].map do |participant|
       user = User.find_or_initialize_by(puuid: participant['puuid'])
       if user.new_record?
         summoner_data = RiotApiService.get_summoner_by_puuid(participant['puuid'])
         Rails.logger.debug("Fetched Summoner Data: #{summoner_data.inspect}")
-
         if summoner_data && summoner_data['gameName']
           user.riot_id = summoner_data['gameName']
           if user.save
@@ -46,9 +44,7 @@ class UsersController < ApplicationController
       end
       participant.merge!('riot_id' => user.riot_id)
     end
-
     Rails.logger.debug("Participants with Riot IDs: #{@participants.inspect}")
-
     render 'match_data'
   end
 
@@ -56,7 +52,6 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
     offset = params[:offset].to_i
     additional_matches = get_recent_matches(@user, offset)
-
     render partial: "matches_table_rows", locals: { matches: additional_matches }
   end
 
@@ -81,19 +76,18 @@ class UsersController < ApplicationController
   end
 
   def get_recent_matches(user)
-    match_ids = RiotApiService.get_matchlist_by_puuid(user.puuid).take(3)
-    match_ids.map { |match_id| RiotApiService.get_match_data(match_id) }
-  end
-
-  def get_recent_matches(user)
-    match_ids = RiotApiService.get_matchlist_by_puuid(user.puuid)&.take(3) || []
+    match_ids = RiotApiService.get_matchlist_by_puuid(user.puuid).take(10)
     match_ids.map do |match_id|
       match_data = RiotApiService.get_match_data(match_id)
-      if match_data.present?
-        {
-          metadata: match_data[:metadata]
-        }
-      end
-    end.compact
+      {
+        metadata: match_data[:metadata],
+        placement: match_data[:participants].find { |p| p[:puuid] == user.puuid }&.dig(:placement)
+      }
+    end
+  end
+
+  def calculate_average_placement(matches)
+    total_placement = matches.sum { |match| match[:placement].to_i }
+    total_placement / matches.size.to_f
   end
 end

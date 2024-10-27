@@ -16,26 +16,27 @@
     <div class="field-container">
       <h1 class="title">Profile of <%= @user.riot_id %></h1>
       <br>
-
       <table class="table is-fullwidth is-hoverable has-background-grey-darker has-text-white-ter">
         <thead>
-          <th>Recent Matches</th>
           <tr>
-            <th>Match ID</th>
-            <th>Date</th>
-            <th>Result</th>
+            <th>Recent Matches</th>
+            <th>Match Placement</th>
           </tr>
         </thead>
         <tbody>
           <% @recent_matches.each do |match| %>
             <tr>
-              <td><%= match[:metadata] %></td>
-              <td><!-- Add match date here if available --></td>
-              <td><!-- Add match result here if available --></td>
+              <td>
+                <%= link_to match[:metadata], match_user_path(match[:metadata]), class: "has-text-link" %>
+              </td>
+              <td><%= match[:placement] || 'N/A' %></td>
             </tr>
           <% end %>
+          <td class="subtitle">Average Placement:</td>
+          <td><%= @average_placement.round(2) %></td>
         </tbody>
       </table>
+
     </div>
 
     <%= render 'shared/footer' %>
