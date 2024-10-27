@@ -14,6 +14,20 @@ class UsersController < ApplicationController
     @recent_matches = get_recent_matches(@user)
   end
 
+  def match_data
+    @match = RiotApiService.get_match_data(params[:id])
+    @page_title = "Match Details - #{@match[:metadata]}"
+    render 'match_data' 
+  end
+
+  def load_more_matches
+    @user = User.find(params[:id])
+    offset = params[:offset].to_i
+    additional_matches = get_recent_matches(@user, offset)
+    
+    render partial: "matches_table_rows", locals: { matches: additional_matches }
+  end
+
   private
 
   def set_page_title
@@ -27,17 +41,19 @@ class UsersController < ApplicationController
       puuid = account_data['puuid']
       riot_id = account_data['gameName']
 
-      # Use find_or_create_by to avoid duplicates
       user = User.find_or_create_by(riot_id: riot_id) do |u|
         u.puuid = puuid
       end
 
-      # Return users that match the found PUUID, including their matches
       User.includes(:matches).where(puuid: puuid)
     else
-      # Return an empty array if the API call fails
       []
     end
+  end
+
+  def get_recent_matches(user)
+    match_ids = RiotApiService.get_matchlist_by_puuid(user.puuid).take(3)
+    match_ids.map { |match_id| RiotApiService.get_match_data(match_id) }
   end
 
   def get_recent_matches(user)
