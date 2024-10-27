@@ -2,6 +2,7 @@ class UsersController < ApplicationController
   before_action :set_page_title
 
   def index
+    @page_title = "Users"
     if params[:search].present?
       @users = search_user(params[:search])
     else
@@ -11,28 +12,29 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
+    @page_title = "Profile - #{@user.riot_id}"
     @recent_matches = get_recent_matches(@user)
   end
 
   def match_data
     @match = RiotApiService.get_match_data(params[:id])
     Rails.logger.debug("Match data: #{@match.inspect}")
-  
+
     if @match[:metadata].nil?
-      Rails.logger.debug("Metadata is missing or nil in match data.")
+      Rails.logger.debug("Metadata is missing.")
       @page_title = "Match Details"
     else
       @page_title = "Match Details - #{@match[:metadata]}"
     end
-  
+
     @participants = @match[:participants].map do |participant|
       user = User.find_or_initialize_by(puuid: participant['puuid'])
       if user.new_record?
         summoner_data = RiotApiService.get_summoner_by_puuid(participant['puuid'])
         Rails.logger.debug("Fetched Summoner Data: #{summoner_data.inspect}")
-  
-        if summoner_data && summoner_data['name']
-          user.riot_id = summoner_data['name']
+
+        if summoner_data && summoner_data['gameName']
+          user.riot_id = summoner_data['gameName']
           if user.save
             Rails.logger.debug("User saved successfully: #{user.inspect}")
           else
@@ -44,19 +46,17 @@ class UsersController < ApplicationController
       end
       participant.merge!('riot_id' => user.riot_id)
     end
-  
+
     Rails.logger.debug("Participants with Riot IDs: #{@participants.inspect}")
-  
+
     render 'match_data'
   end
-  
-  
 
   def load_more_matches
     @user = User.find(params[:id])
     offset = params[:offset].to_i
     additional_matches = get_recent_matches(@user, offset)
-    
+
     render partial: "matches_table_rows", locals: { matches: additional_matches }
   end
 
@@ -68,15 +68,12 @@ class UsersController < ApplicationController
 
   def search_user(game_name)
     account_data = RiotApiService.get_account_by_riot_id(game_name)
-
     if account_data
       puuid = account_data['puuid']
       riot_id = account_data['gameName']
-
       user = User.find_or_create_by(riot_id: riot_id) do |u|
         u.puuid = puuid
       end
-
       User.includes(:matches).where(puuid: puuid)
     else
       []
@@ -90,7 +87,6 @@ class UsersController < ApplicationController
 
   def get_recent_matches(user)
     match_ids = RiotApiService.get_matchlist_by_puuid(user.puuid)&.take(3) || []
-
     match_ids.map do |match_id|
       match_data = RiotApiService.get_match_data(match_id)
       if match_data.present?

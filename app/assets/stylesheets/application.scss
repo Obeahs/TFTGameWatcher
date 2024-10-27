@@ -37,7 +37,6 @@ html, body {
   display: flex;
   justify-content: center;
   align-items: center;
-  // border: 1px solid black;
   padding: 10%;
 }
 
@@ -114,10 +113,15 @@ a:visited {
   font-family: 'Friz Quadrata Regular OS', Arial;
 }
 
+.table-container {
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+}
+
 .table {
   border: 1px solid black;
   padding: 50%;
-  // width: 100%;
   border-collapse: collapse;
   margin: 20px;
 }
@@ -138,5 +142,5 @@ a:visited {
 }
 
 .table tr:hover {
-  background-color: #373b47
+  background-color: #373b47;
 }

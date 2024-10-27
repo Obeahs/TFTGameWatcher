@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title><%= @page_title %></title>
+  <title>Users</title>
   <meta name="description" content="">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
@@ -12,38 +12,48 @@
   <div class="container is-fluid has-background-black has-text-white">
     <%= render 'shared/header' %>
     <%= render 'shared/nav' %>
-    <main id="information" class="section">
-      <div class="container has-border-black">
+
+    <div class="field-container">
       <%= form_tag(users_path, method: :get) do %>
-          <div class="field">
-            <label class="label" for="search">Search for a user:</label>
-            <div class="control">
-              <input class="input" type="text" name="search" value="<%= params[:search] %>">
-            </div>
-            <div class="control">
-              <button class="button is-link color-change" type="submit">Search</button>
-            </div>
+        <div class="field">
+          <label class="label" for="search">Search for a user:</label>
+          <div class="control">
+            <input class="input" type="text" name="search" value="<%= params[:search] %>">
           </div>
-        <% end %>
-        
-        <% if @users.present? %>
-          <% @users.each do |user| %>
-            <h2 class="subtitle"><%= link_to user.riot_id, user_path(user) %></h2>
-            <p>PUUID: <%= user.puuid %></p>
-            <ul>
-              <% user.matches.each do |match| %>
-                <li>
-                  <strong>Match ID:</strong> <%= match.match_id %>
-                  <strong>Game Type:</strong> <%= match.game_type %>
-                </li>
-              <% end %>
-            </ul>
-          <% end %>
-        <% else %>
-          <p>No users found</p>
-        <% end %>
+          <div class="control">
+            <button class="button is-link color-change" type="submit">Search</button>
+          </div>
+        </div>
+      <% end %>
+    </div>
+
+    <% if @users.present? %>
+      <div class="table-container">
+        <table class="table is-fullwidth is-hoverable has-background-grey-darker has-text-white-ter">
+          <thead>
+            <tr>
+              <th>Riot ID</th>
+              <th>PUUID</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @users.each do |user| %>
+              <tr>
+                <td><%= user.riot_id %></td>
+                <td><%= user.puuid %></td>
+                <td>
+                  <%= link_to 'View Profile', user_path(user), class: "button is-small is-link" %>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
       </div>
-    </main>
+    <% else %>
+      <p>No users found.</p>
+    <% end %>
+
     <%= render 'shared/footer' %>
   </div>
 </body>

@@ -13,22 +13,14 @@ class RiotApiService
     puts "Error: #{e.message}"
     nil
   end  
-  
+
   def self.get_summoner_by_puuid(puuid)
-    url = URI("https://na1.api.riotgames.com/lol/summoner/v4/summoners/by-puuid/#{puuid}?api_key=#{ENV['RIOT_API_KEY']}")
+    url = URI("#{RIOT_API_BASE_URL }/riot/account/v1/accounts/by-puuid/#{puuid}?api_key=#{ENV['RIOT_API_KEY']}")
     response = Net::HTTP.get(url)
-    data = JSON.parse(response)
-    if data['name']
-      data['name'] # Return the summoner name if available
-    else
-      nil
-    end
+    JSON.parse(response)
   rescue StandardError => e
     puts "Error: #{e.message}"
-    nil
   end
-  
-  
 
   def self.get_matchlist_by_puuid(puuid)
     url = URI("#{RIOT_API_BASE_URL}/tft/match/v1/matches/by-puuid/#{puuid}/ids?api_key=#{ENV['RIOT_API_KEY']}")
