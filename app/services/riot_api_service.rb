@@ -3,24 +3,32 @@ require 'json'
 
 class RiotApiService
   RIOT_API_BASE_URL = 'https://americas.api.riotgames.com'
-  # SUMMONER_API_BASE_URL = 'https://na1.api.riotgames.com'
+  SUMMONER_API_BASE_URL = 'https://na1.api.riotgames.com'
 
-  def self.get_account_by_riot_id(game_name)
-    tag_line = 'NA1'
+  def self.get_account_by_riot_id(game_name, tag_line = 'NA1')
     url = URI("#{RIOT_API_BASE_URL}/riot/account/v1/accounts/by-riot-id/#{game_name}/#{tag_line}?api_key=#{ENV['RIOT_API_KEY']}")
     response = Net::HTTP.get(url)
     JSON.parse(response)
   rescue StandardError => e
     puts "Error: #{e.message}"
-  end
-
+    nil
+  end  
+  
   def self.get_summoner_by_puuid(puuid)
-    url = URI("#{SUMMONER_API_BASE_URL}/lol/summoner/v4/summoners/by-puuid/#{puuid}?api_key=#{ENV['RIOT_API_KEY']}")
+    url = URI("https://na1.api.riotgames.com/lol/summoner/v4/summoners/by-puuid/#{puuid}?api_key=#{ENV['RIOT_API_KEY']}")
     response = Net::HTTP.get(url)
-    JSON.parse(response)
+    data = JSON.parse(response)
+    if data['name']
+      data['name'] # Return the summoner name if available
+    else
+      nil
+    end
   rescue StandardError => e
     puts "Error: #{e.message}"
+    nil
   end
+  
+  
 
   def self.get_matchlist_by_puuid(puuid)
     url = URI("#{RIOT_API_BASE_URL}/tft/match/v1/matches/by-puuid/#{puuid}/ids?api_key=#{ENV['RIOT_API_KEY']}")

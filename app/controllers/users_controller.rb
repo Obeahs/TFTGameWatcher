@@ -17,16 +17,39 @@ class UsersController < ApplicationController
   def match_data
     @match = RiotApiService.get_match_data(params[:id])
     Rails.logger.debug("Match data: #{@match.inspect}")
-    
+  
     if @match[:metadata].nil?
       Rails.logger.debug("Metadata is missing or nil in match data.")
       @page_title = "Match Details"
     else
       @page_title = "Match Details - #{@match[:metadata]}"
     end
-    
+  
+    @participants = @match[:participants].map do |participant|
+      user = User.find_or_initialize_by(puuid: participant['puuid'])
+      if user.new_record?
+        summoner_data = RiotApiService.get_summoner_by_puuid(participant['puuid'])
+        Rails.logger.debug("Fetched Summoner Data: #{summoner_data.inspect}")
+  
+        if summoner_data && summoner_data['name']
+          user.riot_id = summoner_data['name']
+          if user.save
+            Rails.logger.debug("User saved successfully: #{user.inspect}")
+          else
+            Rails.logger.debug("User save failed: #{user.errors.full_messages}")
+          end
+        else
+          Rails.logger.debug("No valid summoner data for PUUID: #{participant['puuid']}")
+        end
+      end
+      participant.merge!('riot_id' => user.riot_id)
+    end
+  
+    Rails.logger.debug("Participants with Riot IDs: #{@participants.inspect}")
+  
     render 'match_data'
   end
+  
   
 
   def load_more_matches
