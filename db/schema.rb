@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_10_25_203811) do
+ActiveRecord::Schema[7.2].define(version: 2024_10_27_042303) do
   create_table "match_champions", force: :cascade do |t|
     t.integer "match_id", null: false
     t.integer "champion_id"
@@ -61,6 +61,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_25_203811) do
     t.string "riot_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "puuid"
   end
 
   add_foreign_key "match_champions", "matches"

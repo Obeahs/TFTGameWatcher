@@ -1,10 +1,9 @@
 source "https://rubygems.org"
 
 gem "faker"
-
 gem 'dotenv-rails'
-
 gem 'bulma-rails'
+gem 'bulma'
 gem 'sassc'
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"

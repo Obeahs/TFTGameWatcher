@@ -4,7 +4,7 @@
   font-family: 'Friz Quadrata Regular OS';
   font-style: normal;
   font-weight: normal;
-  src: local('Friz Quadrata Regular OS'), url('friz-quadrata-regular-os-5870333951e7c.woff') format('woff');
+src: local('Friz Quadrata Regular OS'), url('friz-quadrata-regular-os-5870333951e7c.woff') format('woff');
 }
 
 @font-face {
@@ -15,7 +15,7 @@
 }
 
 h1, h2, h3, .title {
-  font-family: 'Friz Quadrata Bold Italic OS', Arial, sans-serif; 
+  font-family: 'Friz Quadrata Bold Italic OS', Arial, sans-serif;
 }
 
 html, body {
@@ -34,75 +34,76 @@ html, body {
   height: auto;
 }
 
-#information{
+#information {
+  display: flex;
+  flex-direction: column;
   align-items: center;
   text-align: center;
-  padding-left: 5%;
-  padding-right: 5%;
+  padding: 5%;
 }
 
-#header{
+#header {
   background-color: #54596a;
-  border: 1px solid black;
+  // border: 1px solid black;
   padding: 5px;
   text-align: left;
 }
 
-#title{
+#title {
   padding-left: 15px;
 }
 
-nav{
+nav {
   background-color: #2b2e37;
-
 }
 
-#navPlacement{
-  //  border: 1px solid white;
+#navPlacement {
+  padding: 10px;
   display: flex;
+  justify-content: left;
 }
 
-#navItems{
+#navItems {
   display: flex;
   padding: 0;
-  // border: 1px solid blue;
 }
 
-#navbar-item{
-  padding-left: 30px;
-  padding-right: 30px;
-  padding-top: 10px;
-  padding-bottom: 10px;
-  // border: 1px solid black;
+.navbar-item {
+  padding: 10px 30px;
   text-decoration: none;
 }
 
-#navbar-item:hover{
+.navbar-item:hover {
   background-color: #373b47;
+  color: #ffffff; 
 }
 
-#navbar-item:visited{
-  color:inherit;
+.navbar-item:visited {
+  color: inherit;
 }
 
-footer{
+footer {
   // border: 1px solid black;
   padding: 10px;
   text-align: center;
   align-items: center;
 }
 
-#foot-item{
+#foot-item {
   color: rgb(198, 198, 255);
   font-size: small;
 }
 
-a{
+a {
   text-decoration: none;
   color: inherit;
 }
 
-a:visited{
-  color:inherit;
+a:visited {
+  color: inherit;
 }
-            
+
+.color-change {
+  background-color: #ffcc00;
+  color: #000000;
+}

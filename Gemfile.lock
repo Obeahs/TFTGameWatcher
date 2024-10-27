@@ -82,6 +82,7 @@ GEM
     brakeman (6.2.1)
       racc
     builder (3.3.0)
+    bulma (0.1.0)
     bulma-rails (1.0.2)
       dartsass-rails (~> 0.5.0)
     capybara (3.40.0)
@@ -297,6 +298,7 @@ PLATFORMS
 DEPENDENCIES
   bootsnap
   brakeman
+  bulma
   bulma-rails
   capybara
   debug

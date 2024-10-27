@@ -9,18 +9,4 @@
 #   end
 require 'faker'
 
-#  work in progress
-account_data = RiotApiService.get_account_by_riot_id('Frogen', 'NA1')
-puuid = account_data['puuid']
-
-puts puuid
-
-user = User.find_or_create_by!(riot_id: puuid) do |u|
-  u.name = account_data['gameName']
-end
-
-puts user
-
-match_ids = RiotApiService.get_matchlist_by_puuid(puuid)
-
-puts "Frogen match data"
+User.create!(riot_id: 'Frogen', puuid: 'mIdwDPPsBJqYtgANdvzjzR9Kaqmcl0KVNi4bAGanqAEqu3vgzk0jfDjbxRFyT19VS3IhyAlU-uTz2Q')
