@@ -10,9 +10,11 @@
 </head>
 <body>
   <div class="container is-fluid has-background-black has-text-white">
-  <%= render 'shared/header' %>
-  <%= render 'shared/nav' %>  
-  <%= form_tag(users_path, method: :get) do %>
+    <%= render 'shared/header' %>
+    <%= render 'shared/nav' %>
+
+    <div class="field-container">
+    <%= form_tag(users_path, method: :get) do %>
       <div class="field">
         <label class="label" for="search">Search for a user:</label>
         <div class="control">
@@ -23,7 +25,9 @@
         </div>
       </div>
     <% end %>
-<%= render 'shared/footer' %>   
+  </div>
+
+    <%= render 'shared/footer' %>
   </div>
 </body>
 </html>

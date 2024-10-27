@@ -27,7 +27,7 @@
               <% @recent_matches.each do |match| %>
                 <tr>
                   <td>
-                    <%= link_to match[:metadata], match_path(match[:metadata]), class: "has-text-link" %>
+                  <%= link_to match[:metadata], match_user_path(match[:metadata]), class: "has-text-link" %>
                   </td>
                 </tr>
               <% end %>

@@ -4,7 +4,7 @@
   font-family: 'Friz Quadrata Regular OS';
   font-style: normal;
   font-weight: normal;
-src: local('Friz Quadrata Regular OS'), url('friz-quadrata-regular-os-5870333951e7c.woff') format('woff');
+  src: local('Friz Quadrata Regular OS'), url('friz-quadrata-regular-os-5870333951e7c.woff') format('woff');
 }
 
 @font-face {
@@ -29,9 +29,16 @@ html, body {
 }
 
 .container {
-  // border: 5px solid black;
   width: auto;
   height: auto;
+}
+
+.field-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  // border: 1px solid black;
+  padding: 10%;
 }
 
 #information {
@@ -44,7 +51,6 @@ html, body {
 
 #header {
   background-color: #54596a;
-  // border: 1px solid black;
   padding: 5px;
   text-align: left;
 }
@@ -75,7 +81,7 @@ nav {
 
 .navbar-item:hover {
   background-color: #373b47;
-  color: #ffffff; 
+  color: #ffffff;
 }
 
 .navbar-item:visited {
@@ -83,7 +89,6 @@ nav {
 }
 
 footer {
-  // border: 1px solid black;
   padding: 10px;
   text-align: center;
   align-items: center;
@@ -104,6 +109,34 @@ a:visited {
 }
 
 .color-change {
-  background-color: #ffcc00;
+  background-color: #dc291e;
   color: #000000;
+  font-family: 'Friz Quadrata Regular OS', Arial;
+}
+
+.table {
+  border: 1px solid black;
+  padding: 50%;
+  // width: 100%;
+  border-collapse: collapse;
+  margin: 20px;
+}
+
+.table th, .table td {
+  padding: 15px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.table th {
+  background-color: #54596a;
+  color: white;
+}
+
+.table tr:nth-child(even) {
+  background-color: #2b2e37;
+}
+
+.table tr:hover {
+  background-color: #373b47
 }

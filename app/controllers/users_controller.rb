@@ -16,9 +16,18 @@ class UsersController < ApplicationController
 
   def match_data
     @match = RiotApiService.get_match_data(params[:id])
-    @page_title = "Match Details - #{@match[:metadata]}"
-    render 'match_data' 
+    Rails.logger.debug("Match data: #{@match.inspect}")
+    
+    if @match[:metadata].nil?
+      Rails.logger.debug("Metadata is missing or nil in match data.")
+      @page_title = "Match Details"
+    else
+      @page_title = "Match Details - #{@match[:metadata]}"
+    end
+    
+    render 'match_data'
   end
+  
 
   def load_more_matches
     @user = User.find(params[:id])
