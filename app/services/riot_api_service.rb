@@ -32,6 +32,14 @@ class RiotApiService
 
   def self.get_match_data(match_id)
     url = URI("#{RIOT_API_BASE_URL}/tft/match/v1/matches/#{match_id}?api_key=#{ENV['RIOT_API_KEY']}")
+    response = Net::HTTP.get(url)
+    JSON.parse(response)
+  rescue StandardError => e
+    puts "Error: #{e.message}"
+  end
+  
+  def self.get_match_data_placements(match_id)
+    url = URI("#{RIOT_API_BASE_URL}/tft/match/v1/matches/#{match_id}?api_key=#{ENV['RIOT_API_KEY']}")
     begin
       response = Net::HTTP.get(url)
       data = JSON.parse(response)
@@ -40,13 +48,13 @@ class RiotApiService
         participants: data['info']['participants'].map do |participant|
           {
             puuid: participant['puuid'],
-            placement: participant['placement'] # Ensure placement is here
+            placement: participant['placement']
           }
         end
       }
     rescue StandardError => e
       puts "Error: #{e.message}"
       { metadata: {}, participants: [] }
-    end 
-  end 
+    end
+  end
 end

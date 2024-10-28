@@ -20,33 +20,42 @@ class UsersController < ApplicationController
   def match_data
     @match = RiotApiService.get_match_data(params[:id])
     Rails.logger.debug("Match data: #{@match.inspect}")
-    if @match[:metadata].nil?
+  
+    if @match['metadata'].nil?
       Rails.logger.debug("Metadata is missing.")
       @page_title = "Match Details"
     else
-      @page_title = "Match Details - #{@match[:metadata]}"
+      @page_title = "Match Details - #{@match['metadata']}"
     end
-    @participants = @match[:participants].map do |participant|
-      user = User.find_or_initialize_by(puuid: participant['puuid'])
-      if user.new_record?
-        summoner_data = RiotApiService.get_summoner_by_puuid(participant['puuid'])
-        Rails.logger.debug("Fetched Summoner Data: #{summoner_data.inspect}")
-        if summoner_data && summoner_data['gameName']
-          user.riot_id = summoner_data['gameName']
-          if user.save
-            Rails.logger.debug("User saved successfully: #{user.inspect}")
+  
+    if @match['info']['participants'].present?
+      @participants = @match['info']['participants'].map do |participant|
+        user = User.find_or_initialize_by(puuid: participant['puuid'])
+        if user.new_record?
+          summoner_data = RiotApiService.get_summoner_by_puuid(participant['puuid'])
+          Rails.logger.debug("Fetched Summoner Data: #{summoner_data.inspect}")
+          if summoner_data && summoner_data['gameName']
+            user.riot_id = summoner_data['gameName']
+            if user.save
+              Rails.logger.debug("User saved successfully: #{user.inspect}")
+            else
+              Rails.logger.debug("User save failed: #{user.errors.full_messages}")
+            end
           else
-            Rails.logger.debug("User save failed: #{user.errors.full_messages}")
+            Rails.logger.debug("No valid summoner data for PUUID: #{participant['puuid']}")
           end
-        else
-          Rails.logger.debug("No valid summoner data for PUUID: #{participant['puuid']}")
         end
+        participant.merge!('riot_id' => user.riot_id)
       end
-      participant.merge!('riot_id' => user.riot_id)
+    else
+      @participants = []
+      Rails.logger.debug("No participants data available.")
     end
+    
     Rails.logger.debug("Participants with Riot IDs: #{@participants.inspect}")
     render 'match_data'
   end
+  
 
   def load_more_matches
     @user = User.find(params[:id])
@@ -78,16 +87,16 @@ class UsersController < ApplicationController
   def get_recent_matches(user)
     match_ids = RiotApiService.get_matchlist_by_puuid(user.puuid).take(10)
     match_ids.map do |match_id|
-      match_data = RiotApiService.get_match_data(match_id)
+      match_data = RiotApiService.get_match_data_placements(match_id)
       {
         metadata: match_data[:metadata],
         placement: match_data[:participants].find { |p| p[:puuid] == user.puuid }&.dig(:placement)
       }
     end
   end
-
+  
   def calculate_average_placement(matches)
     total_placement = matches.sum { |match| match[:placement].to_i }
     total_placement / matches.size.to_f
   end
-end
+end  
