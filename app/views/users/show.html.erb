@@ -13,32 +13,34 @@
     <%= render 'shared/header' %>
     <%= render 'shared/nav' %>
 
-    <div class="field-container">
-      <h1 class="title">Profile of <%= @user.riot_id %></h1>
-      <br>
-      <div class="information">
-        <table class="table is-fullwidth is-hoverable has-background-grey-darker has-text-white-ter">
-            <thead>
-            <tr>
-                <th>Recent Matches</th>
-                <th>Match Placement</th>
-            </tr>
-            </thead>
-            <tbody>
-            <% @recent_matches.each do |match| %>
-                <tr>
-                <td>
-                    <%= link_to match[:metadata], match_user_path(match[:metadata]), class: "has-text-link" %>
-                </td>
-                <td><%= match[:placement] || 'N/A' %></td>
-                </tr>
-            <% end %>
-            <tr>
-                <td class="subtitle"><strong>Average Placement:</strong></td>
-                <td><%= @average_placement.round(2) %></td>
-            </tr>
-            </tbody>
-        </table>
+    <div id='information'>
+      <div class="field-container">
+        <h1 class="title">Profile of <%= @user.riot_id %></h1>
+        <br>
+        <div class="information">
+          <table class="table is-fullwidth is-hoverable has-background-grey-darker has-text-white-ter">
+              <thead>
+              <tr>
+                  <th>Recent Matches</th>
+                  <th>Match Placement</th>
+              </tr>
+              </thead>
+              <tbody>
+              <% @recent_matches.each do |match| %>
+                  <tr>
+                  <td>
+                      <%= link_to match[:metadata], match_user_path(match[:metadata]), class: "has-text-link" %>
+                  </td>
+                  <td><%= match[:placement] || 'N/A' %></td>
+                  </tr>
+              <% end %>
+              <tr>
+                  <td class="subtitle"><strong>Average Placement:</strong></td>
+                  <td><%= @average_placement.round(2) %></td>
+              </tr>
+              </tbody>
+          </table>
+        </div>
       </div>
     </div>
 

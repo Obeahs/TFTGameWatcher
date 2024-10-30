@@ -41,8 +41,7 @@ html, body {
 }
 
 #information {
-  width: fit-content;
-  display: flex;
+  align-items: center;
   flex-direction: column;
   align-items: center;
   text-align: center;
@@ -144,4 +143,11 @@ a:visited {
 
 .table tr:hover {
   background-color: #373b47;
+}
+
+.show-more {
+  background-color: #dc291e;
+  color: #000000;
+  font-family: 'Friz Quadrata Regular OS', Arial;
+  margin: auto;
 }
